@@ -25,6 +25,8 @@
     <textarea id="prompt" rows="6" placeholder="Enter a prompt or click a button..."></textarea>
     <button onclick="sendPrompt()">Generate with GPT</button>
     <div id="response" class="response"></div>
+    <button onclick="copyResponse()">Copy to Clipboard</button>
+
   </div>
 
   <script>
@@ -62,6 +64,13 @@
         responseDiv.textContent = "Error: " + err.message;
       }
     }
+    function copyResponse() {
+  const responseText = document.getElementById("response").textContent;
+  navigator.clipboard.writeText(responseText).then(() => {
+    alert("Copied!");
+  });
+}
+
   </script>
 </body>
 </html>
