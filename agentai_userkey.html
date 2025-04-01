@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AgentAI Toolkit</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 2rem; }
+    .container { max-width: 700px; margin: auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h1 { text-align: center; margin-bottom: 1.5rem; }
+    button { padding: 10px 15px; margin: 5px; border-radius: 6px; border: none; cursor: pointer; background: #4CAF50; color: white; }
+    textarea { width: 100%; padding: 1rem; margin-top: 1rem; border-radius: 6px; border: 1px solid #ccc; resize: vertical; }
+    .response { margin-top: 1rem; background: #f1f1f1; padding: 1rem; border-radius: 6px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AgentAI Toolkit</h1>
+    <div>
+      <button onclick="setPrompt('listing')">Listing Description</button>
+      <button onclick="setPrompt('email')">Follow-Up Email</button>
+      <button onclick="setPrompt('social')">Social Media Post</button>
+    </div>
+    <textarea id="prompt" rows="6" placeholder="Enter a prompt or click a button..."></textarea>
+    <button onclick="sendPrompt()">Generate with GPT</button>
+    <div id="response" class="response"></div>
+  </div>
+
+  <script>
+    const prompts = {
+      listing: "Write a listing description for a 4-bedroom, 3-bathroom home in San Diego with ocean views and a modern kitchen.",
+      email: "Write a friendly follow-up email to a buyer who visited an open house last weekend.",
+      social: "Create an Instagram caption for a new home listing in Austin, TX: 3 beds, 2 baths, pool, $675K."
+    };
+
+    function setPrompt(type) {
+      document.getElementById("prompt").value = prompts[type];
+    }
+
+    async function sendPrompt() {
+      const prompt = document.getElementById("prompt").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.textContent = "Loading...";
+
+      try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer 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"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }]
+          })
+        });
+
+        const data = await response.json();
+        responseDiv.textContent = data.choices?.[0]?.message?.content || "No response from AI.";
+      } catch (err) {
+        responseDiv.textContent = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
