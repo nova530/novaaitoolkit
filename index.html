@@ -12,6 +12,43 @@
     button { padding: 10px 15px; margin: 5px; border-radius: 6px; border: none; cursor: pointer; background: #4CAF50; color: white; }
     textarea { width: 100%; padding: 1rem; margin-top: 1rem; border-radius: 6px; border: 1px solid #ccc; resize: vertical; }
     .response { margin-top: 1rem; background: #f1f1f1; padding: 1rem; border-radius: 6px; white-space: pre-wrap; }
+    /* Define default (light) theme */
+:root {
+    --bg-color-light: #f9f9f9; /* Light background */
+    --text-color-light: #333; /* Dark text on light background */
+    --button-bg-light: #4CAF50;
+    --button-text-light: white;
+}
+
+/* Dark theme variables */
+[data-theme="dark"] {
+    --bg-color-dark: #121212; /* Dark background */
+    --text-color-dark: #f1f1f1; /* Light text on dark background */
+    --button-bg-dark: #333;
+    --button-text-dark: white;
+}
+
+/* Apply the themes to the body and other elements */
+body {
+    background-color: var(--bg-color-light);
+    color: var(--text-color-light);
+}
+
+button {
+    background-color: var(--button-bg-light);
+    color: var(--button-text-light);
+}
+
+/* Dark Mode Styles */
+[data-theme="dark"] body {
+    background-color: var(--bg-color-dark);
+    color: var(--text-color-dark);
+}
+
+[data-theme="dark"] button {
+    background-color: var(--button-bg-dark);
+    color: var(--button-text-dark);
+}
   </style>
 </head>
 <body>
